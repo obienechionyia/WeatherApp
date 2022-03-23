@@ -33,18 +33,19 @@ def getWeather(city):
     else:
         return None
 
-def search():  
+def search(event):  
     city = city_text.get().lower()
     if city == "my location":
         city = getLocation()
     weather = getWeather(city)
     if weather:
         location_lbl['text'] = "{}, {}".format(weather[0], weather[1]) + " " + weather[6]
-        temp_lbl['text'] = '{}°F'.format(weather[2])
+        temp_lbl['text'] = '{}°F'.format(round(weather[2]))
         image['bitmap'] = "weather_icons/{}.png".format(weather[4])
         weather_lbl['text'] = '{}'.format(weather[5])
     instructions_lbl.destroy()
     weather_icon.destroy()
+
 
 def getLocation():
     # Get user IP address
@@ -59,7 +60,9 @@ def getLocation():
 app = Tk()
 
 app.title("Weather App")
-app.geometry("700x350")
+app.geometry("650x250")
+
+app.bind('<Return>', search)
 
 instructions_lbl = Label(app, text="Enter a city name below to see its current weather report!", font=("bold", 25))
 instructions_lbl.pack()
